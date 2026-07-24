@@ -30,8 +30,6 @@ Click below to watch the project demo.
 
 ▶️ **Demo:** [Pothole_Detection_Demo.mp4](assets/Pothole_Detection_Demo.mp4)
 
-> **Tip:** After pushing the repository, upload the video directly to GitHub README by dragging it into the README editor. GitHub will automatically generate an embedded video player.
-
 ---
 
 # 🚀 Features
