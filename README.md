@@ -276,6 +276,9 @@ pip install -r requirements.txt
 
 MCA Student
 
+- 🔗 [GitHub](https://github.com/jainvanshika21)
+- 🔗 [LinkedIn](https://www.linkedin.com/in/vanshika-jain-17007128a/)
+
 ### Skills
 
 Python • YOLOv8 • OpenCV • Streamlit • Computer Vision • Pandas • NumPy • Plotly • Machine Learning • Deep Learning
