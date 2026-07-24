@@ -390,7 +390,7 @@ pip install -r requirements.txt
 **MCA Student | Computer Vision & Data Analytics Enthusiast**
 
 * 🔗 [GitHub](https://github.com/jainvanshika21)
-* 🔗 [LinkedIn](https://www.linkedin.com/in/jainvanshika-jain-17007128a/)
+* 🔗 [LinkedIn](https://www.linkedin.com/in/vanshika-jain-17007128a/)
 
 ### Skills
 
