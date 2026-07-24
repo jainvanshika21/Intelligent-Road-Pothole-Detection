@@ -51,7 +51,17 @@ class PotholeDetector:
         return self._detect_with_heuristic(frame)
 
     def _detect_with_yolo(self, frame: np.ndarray) -> List[Detection]:
-        results = self._model.predict(frame, conf=self.conf, verbose=False)
+        print("YOLO: starting inference")
+
+        results = self._model.predict(
+            frame,
+            conf=self.conf,
+            verbose=False,
+            device="cpu",
+            imgsz=320
+        )
+
+        print("YOLO: inference completed")
         dets: List[Detection] = []
         for r in results:
             if r.boxes is None:
