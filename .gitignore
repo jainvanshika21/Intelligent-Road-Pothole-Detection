@@ -15,14 +15,6 @@ env/
 data/uploads/
 data/outputs/
 
-# YOLO training outputs
-runs/
-kfold_results/
-
-# Large model files (uncomment if needed)
-# *.pt
-# *.onnx
-
 # Dataset files
 dataset/
 train/
