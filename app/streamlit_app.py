@@ -395,20 +395,15 @@ with st.sidebar:
 
 st.subheader("📹 Live Detection")
 
-
 if st.session_state.video_path is None:
 
     st.info("Upload video first")
 
-
 else:
 
     placeholder = st.empty()
-
     progress_bar = st.progress(0)
-
     status_text = st.empty()
-
 
     detector = PotholeDetector(
         model_path=st.session_state.model_path,
@@ -417,114 +412,90 @@ else:
 
     cap = open_video(st.session_state.video_path)
 
+    total_frames = st.session_state.meta.total_frames
+    fps = st.session_state.meta.fps
+
     while st.session_state.processing:
 
         ret, frame = read_frame(cap)
 
-
         if not ret:
-
             st.session_state.processing = False
-
             break
 
+        current_frame = st.session_state.frame_idx
 
+        # Process only selected frames
+        if current_frame % st.session_state.frame_skip == 0:
 
-        if st.session_state.frame_idx % st.session_state.frame_skip == 0:
             detections = detector.detect(frame)
+
+            annotated = draw_detections(
+                frame,
+                detections
+            )
+
+            for d in detections:
+
+                timestamp = round(
+                    current_frame / fps,
+                    2
+                )
+
+                st.session_state.detections.append(
+                    {
+                        "timestamp (sec)": timestamp,
+                        "frame": current_frame,
+                        "label": d.label,
+                        "confidence": round(
+                            d.confidence,
+                            2
+                        ),
+                    }
+                )
+
         else:
-            detections = []
 
+            annotated = frame
 
-        annotated = draw_detections(
-            frame,
-            detections
-        )
-
-
-        fps = st.session_state.meta.fps
-
-
-
-        for d in detections:
-
-
-            timestamp = round(
-                st.session_state.frame_idx / fps,
-                2
-            )
-
-
-            st.session_state.detections.append(
-
-                {
-
-                    "timestamp (sec)": timestamp,
-
-                    "frame": st.session_state.frame_idx,
-
-                    "label": d.label,
-
-                    "confidence": round(
-                        d.confidence,
-                        2
-                    ),
-
-                }
-
-            )
-
-
-
+        # Convert BGR → RGB
         rgb = cv2.cvtColor(
             annotated,
             cv2.COLOR_BGR2RGB
         )
 
-
+        # Display frame
         placeholder.image(
             rgb,
             channels="RGB",
             use_container_width=True
         )
 
-
+        # Update frame counter
         st.session_state.frame_idx += 1
 
-
-
+        # Update progress
         progress = (
-
             st.session_state.frame_idx /
-
-            st.session_state.meta.total_frames
-
+            total_frames
         )
-
 
         progress_bar.progress(
             min(progress, 1.0)
         )
 
-
-        percent = progress * 100
-
         status_text.text(
-            f"Processing: {percent:.1f}% | "
-            f"Frame {st.session_state.frame_idx}/{st.session_state.meta.total_frames}"
+            f"Processing: {progress * 100:.1f}% | "
+            f"Frame {st.session_state.frame_idx}/{total_frames}"
         )
 
-
-        time.sleep(0.005)
-
-
-
-    progress_bar.empty()
-
-    status_text.empty()
+        # Small delay
+        time.sleep(0.01)
 
     cap.release()
 
+    progress_bar.empty()
+    status_text.empty()
 
 
 # ------------------ SUMMARY METRICS ------------------
