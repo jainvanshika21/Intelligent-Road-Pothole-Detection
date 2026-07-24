@@ -88,7 +88,7 @@ The system aims to:
 ## 🧠 Model Evaluation
 
 * 5-Fold Cross Validation
-* Fold-wise model performance
+* Fold-wise mAP@50 performance
 * Average mAP@50
 * Performance comparison visualization
 
@@ -104,21 +104,27 @@ The project uses a custom-trained **YOLOv8 object detection model** for pothole 
 
 ### Model Output
 
-For each detected pothole, the model provides:
+For each detected pothole, the system provides:
 
-* Bounding box coordinates
+* Bounding box visualization
+* Detection label
 * Confidence score
-* Detection location within the video frame
+* Detection timestamp
+* Video frame number
 
-### Evaluation
+---
 
-The model evaluation section provides:
+# 🤖 Model Evaluation
+
+The project includes model evaluation using **5-Fold Cross Validation**.
+
+The evaluation dashboard presents:
 
 * Fold-wise mAP@50
 * Average mAP@50
-* Cross-validation performance comparison
+* Performance comparison across folds
 
-> **Note:** Add your exact model variant, dataset size, training epochs, and final evaluation metrics here if available.
+The results are visualized using an interactive bar chart to compare model performance across individual folds.
 
 ---
 
@@ -276,30 +282,6 @@ These visualizations help analyze detection patterns and understand model predic
 
 ---
 
-# 🤖 Model Evaluation
-
-The project includes model evaluation using **5-Fold Cross Validation**.
-
-The evaluation dashboard presents:
-
-* Fold-wise mAP@50
-* Average mAP@50
-* Performance comparison across folds
-
-The results are visualized using an interactive bar chart to compare model performance across individual folds.
-
-> **Note:** Add your actual mAP@50 values here to make the evaluation section stronger.
-
-Example:
-
-```text
-Average mAP@50: XX%
-Best Fold: Fold X
-Worst Fold: Fold X
-```
-
----
-
 # 📸 Application Preview
 
 ## 🏠 Home Dashboard
@@ -345,9 +327,9 @@ The system generates:
 * ✅ Pothole detection results
 * ✅ Bounding box visualizations
 * ✅ Confidence scores
+* ✅ Detection timestamps and frame numbers
 * ✅ Detection summary metrics
-* ✅ Detection reports
-* ✅ Downloadable CSV files
+* ✅ Downloadable CSV reports
 * ✅ Interactive analytics
 * ✅ Model evaluation results
 
@@ -408,7 +390,7 @@ pip install -r requirements.txt
 **MCA Student | Computer Vision & Data Analytics Enthusiast**
 
 * 🔗 [GitHub](https://github.com/jainvanshika21)
-* 🔗 [LinkedIn](https://www.linkedin.com/in/vanshika-jain-17007128a/)
+* 🔗 [LinkedIn](https://www.linkedin.com/in/jainvanshika-jain-17007128a/)
 
 ### Skills
 
