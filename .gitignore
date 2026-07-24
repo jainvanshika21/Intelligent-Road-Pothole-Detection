@@ -19,9 +19,9 @@ data/outputs/
 runs/
 kfold_results/
 
-# Large model files
-*.pt
-*.onnx
+# Large model files (uncomment if needed)
+# *.pt
+# *.onnx
 
 # Dataset files
 dataset/
@@ -37,3 +37,7 @@ valid/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
