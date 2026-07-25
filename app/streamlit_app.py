@@ -1005,31 +1005,6 @@ else:
                 f"❌ Error while processing video: {str(e)}"
             )
 
-
-    # --------------------------------------------------------
-    # DISPLAY VIDEO AGAIN AFTER STREAMLIT RERUN
-    # --------------------------------------------------------
-
-    elif (
-        st.session_state.detection_completed
-        and st.session_state.output_video_bytes
-    ):
-
-        st.success(
-            "✅ Detection Completed!"
-        )
-
-
-        st.subheader(
-            "🎬 Processed Video"
-        )
-
-
-        st.video(
-            st.session_state.output_video_bytes
-        )
-
-
 # ============================================================
 # ------------------ SUMMARY METRICS --------------------------
 # ============================================================
