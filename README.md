@@ -5,7 +5,7 @@
 ![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green?logo=opencv)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-red?logo=streamlit)
 
-> An end-to-end Computer Vision project for detecting road potholes from uploaded videos using YOLOv8, OpenCV, and Streamlit, with interactive analytics, detection reports, and model performance evaluation.
+> An end-to-end Computer Vision application for detecting road potholes from uploaded road videos using a custom-trained YOLOv8 model, OpenCV, and Streamlit, with browser-compatible processed video playback, interactive analytics, detection reports, CSV export, and model performance evaluation.
 
 ---
 
@@ -13,7 +13,9 @@
 
 🚀 **[Open the Live Pothole Detection App](https://jainvanshika21-intelligent-road-pothole-appstreamlit-app-2mc2qo.streamlit.app/)**
 
-The application is deployed using Streamlit and allows users to upload road videos, run pothole detection, view bounding-box predictions, explore interactive analytics, and download detection reports.
+The application is deployed using Streamlit and allows users to upload road videos, run AI-based pothole detection, view bounding-box predictions, explore interactive analytics, review detection reports, and download results as CSV.
+
+> **Note:** The application is designed for uploaded road videos containing road surfaces and potential potholes.
 
 ---
 
@@ -21,29 +23,32 @@ The application is deployed using Streamlit and allows users to upload road vide
 
 The **Intelligent Road Pothole Detection System** is an AI-powered Computer Vision application designed to automatically detect potholes from road videos.
 
-The system uses a custom-trained **YOLOv8 object detection model** to identify potholes in video frames. **OpenCV** is used for video processing, while **Streamlit** provides an interactive web-based interface for running detection and analyzing results.
+The system uses a custom-trained **YOLOv8 object detection model** to identify potholes in video frames. **OpenCV** is used for video reading, frame processing, annotation, and video generation, while **Streamlit** provides an interactive web-based interface.
 
-The application provides visual detection results with bounding boxes, confidence scores, detection reports, interactive analytics, and model performance evaluation.
+After processing, the system generates a browser-compatible processed video with pothole bounding boxes and confidence scores. Users can also explore detection statistics, view detailed detection reports, download results as CSV, and evaluate model performance using 5-Fold Cross Validation.
 
 ---
 
 # ⭐ Project Highlights
 
 * 🚀 AI-powered pothole detection using YOLOv8
-* 🎥 Video-based pothole detection using OpenCV
+* 🎥 Road video processing using OpenCV
 * 📦 Bounding box visualization with confidence scores
+* ▶️ Browser-compatible processed video playback
 * 📊 Interactive analytics dashboard
 * 📄 Downloadable CSV detection reports
 * 🎯 Adjustable confidence threshold
+* ⏭️ Adjustable frame skip for video processing
 * 🧠 5-Fold Cross Validation for model evaluation
+* 📈 Fold-wise mAP@50 performance visualization
 * 🌐 Deployed as a live Streamlit web application
-* 💻 Interactive and user-friendly web interface
+* 💻 Interactive and user-friendly interface
 
 ---
 
 # 🎯 Project Objective
 
-The objective of this project is to develop an automated system capable of identifying potholes from road videos using Computer Vision and Deep Learning.
+The objective of this project is to develop an automated Computer Vision system capable of identifying potholes from road videos using Deep Learning and Object Detection.
 
 The system aims to:
 
@@ -52,6 +57,7 @@ The system aims to:
 * Provide visual detection results
 * Generate structured detection reports
 * Analyze pothole detection patterns
+* Provide confidence-based detection insights
 * Evaluate model performance using validation techniques
 
 ---
@@ -62,26 +68,35 @@ The system aims to:
 
 * Upload `.mp4` road videos
 * Extract and process video frames using OpenCV
-* Display detected potholes with bounding boxes
-* Show confidence scores for detections
+* Process video frames using YOLOv8
+* Generate annotated output videos
+* Display processed videos directly in the browser
+* Use H.264 encoding for browser-compatible playback
 
 ## 🤖 AI-Based Detection
 
-* YOLOv8-based object detection
+* Custom-trained YOLOv8 object detection model
+* Automatic pothole detection from video frames
 * Adjustable confidence threshold
-* Automated pothole detection from video frames
+* Bounding box visualization
+* Confidence score display
 
 ## 📊 Interactive Analytics
 
 * Total pothole detections
-* Detection confidence distribution
+* Number of processed frames
+* Average detection confidence
+* Highest detection confidence
 * Frame-wise detection trends
-* Detection report table
+* Detection confidence distribution
 * Interactive visualizations
 
 ## 📄 Detection Reports
 
 * Generate structured detection results
+* Display detection timestamps
+* Display video frame numbers
+* Display confidence scores
 * Export detection data as CSV
 * Download reports for further analysis
 
@@ -90,7 +105,8 @@ The system aims to:
 * 5-Fold Cross Validation
 * Fold-wise mAP@50 performance
 * Average mAP@50
-* Performance comparison visualization
+* Performance comparison across folds
+* Interactive model performance visualization
 
 ---
 
@@ -124,29 +140,39 @@ The evaluation dashboard presents:
 * Average mAP@50
 * Performance comparison across folds
 
-The results are visualized using an interactive bar chart to compare model performance across individual folds.
+The results are visualized using an interactive chart to compare model performance across individual folds.
 
 ---
 
 # 🛠️ Tech Stack
 
-| Category         | Technologies       |
-| ---------------- | ------------------ |
-| Programming      | Python             |
-| Computer Vision  | OpenCV             |
-| Deep Learning    | Ultralytics YOLOv8 |
-| Web Framework    | Streamlit          |
-| Data Analysis    | Pandas, NumPy      |
-| Visualization    | Plotly, Matplotlib |
-| Machine Learning | Scikit-learn       |
+| Category | Technologies |
+|---|---|
+| Programming | Python |
+| Computer Vision | OpenCV |
+| Deep Learning | Ultralytics YOLOv8 |
+| Web Framework | Streamlit |
+| Data Analysis | Pandas, NumPy |
+| Visualization | Plotly, Matplotlib |
+| Machine Learning | Scikit-learn |
+| Video Encoding | FFmpeg / H.264 |
 
 ---
 
 # 🎥 Demo Video
 
-Click below to view the project demonstration:
+The project demonstration showcases:
 
-▶️ **[Pothole Detection Demo](assets/Pothole_Detection_Demo.mp4)**
+* Road video upload
+* YOLOv8 pothole detection
+* Bounding box predictions
+* Processed video playback
+* Detection summary
+* Detection report
+* Interactive analytics
+* Model performance evaluation
+
+▶️ **[Watch the Pothole Detection Demo](assets/Pothole_Detection_Demo.mp4)**
 
 ---
 
@@ -185,6 +211,7 @@ Intelligent-Road-Pothole-Detection/
 │   └── Pothole_Detection_Demo.mp4
 │
 ├── requirements.txt
+├── packages.txt
 ├── README.md
 └── .gitignore
 ```
@@ -205,13 +232,31 @@ git clone https://github.com/jainvanshika21/Intelligent-Road-Pothole-Detection.g
 cd Intelligent-Road-Pothole-Detection
 ```
 
-## 3. Install Dependencies
+## 3. Install Python Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 4. Launch the Application
+## 4. Install FFmpeg
+
+FFmpeg is required for converting processed videos into browser-compatible H.264 format.
+
+### Windows
+
+Install FFmpeg and make sure it is available in your system PATH.
+
+### Streamlit Cloud
+
+The project includes a `packages.txt` file containing:
+
+```text
+ffmpeg
+```
+
+This allows Streamlit Cloud to install FFmpeg during deployment.
+
+## 5. Launch the Application
 
 ```bash
 streamlit run app/streamlit_app.py
@@ -223,15 +268,16 @@ streamlit run app/streamlit_app.py
 
 1. Open the deployed application or run it locally.
 2. Upload a road video in `.mp4` format.
-3. Adjust the confidence threshold.
+3. Adjust the confidence threshold if required.
 4. Adjust the frame skip value if required.
-5. Start the detection process.
-6. View detected potholes with bounding boxes.
-7. Review detection summary metrics.
-8. Explore the Detection Report.
-9. Explore the Analytics Dashboard.
-10. Download detection results as a CSV file.
-11. View model evaluation results.
+5. Start the pothole detection process.
+6. Wait for the video processing to complete.
+7. View the processed video with pothole bounding boxes.
+8. Review detection summary metrics.
+9. Explore the Detection Report.
+10. Explore the Analytics Dashboard.
+11. Download detection results as a CSV file.
+12. View model evaluation results.
 
 ---
 
@@ -251,6 +297,15 @@ streamlit run app/streamlit_app.py
                       │
                       ▼
           Bounding Box Visualization
+                      │
+                      ▼
+        Temporary Processed Video
+                      │
+                      ▼
+        FFmpeg H.264 Video Conversion
+                      │
+                      ▼
+        Browser-Compatible Video Output
                       │
                       ▼
              Detection Results
@@ -278,7 +333,7 @@ The application provides interactive analytics including:
 * 📋 Detection results table
 * 📄 Downloadable CSV report
 
-These visualizations help analyze detection patterns and understand model predictions across the processed video.
+These visualizations help analyze detection patterns and understand model predictions across the processed road video.
 
 ---
 
@@ -327,8 +382,10 @@ The system generates:
 * ✅ Pothole detection results
 * ✅ Bounding box visualizations
 * ✅ Confidence scores
-* ✅ Detection timestamps and frame numbers
+* ✅ Detection timestamps
+* ✅ Video frame numbers
 * ✅ Detection summary metrics
+* ✅ Browser-compatible processed video
 * ✅ Downloadable CSV reports
 * ✅ Interactive analytics
 * ✅ Model evaluation results
@@ -337,9 +394,10 @@ The system generates:
 
 # ⚠️ Limitations
 
-* Detection performance depends on video quality and lighting conditions.
+* Detection performance depends on video quality, lighting, camera angle, and road conditions.
 * Extremely blurry or low-resolution videos may reduce detection accuracy.
-* The model may produce false positives on road surfaces with patterns similar to potholes.
+* The model may produce false positives on road surfaces with patterns visually similar to potholes.
+* The application is designed for road videos and may not provide meaningful results for unrelated non-road videos.
 * The current system focuses on pothole detection and does not classify pothole severity.
 * GPS-based pothole location tracking is not currently implemented.
 * The application is designed for uploaded road videos rather than continuous live camera feeds.
@@ -357,29 +415,61 @@ The system generates:
 * 🌍 Smart City infrastructure integration
 * 📍 Automatic location tagging
 * 📊 Historical pothole tracking
+* 🧠 Improved detection using larger and more diverse datasets
 
 ---
 
 # 📚 Dependencies
 
+The main Python dependencies used in the project are:
+
 ```text
 streamlit>=1.30
-opencv-python-headless>=4.8
+opencv-python-headless==4.10.0.84
 numpy>=1.24
 pandas>=2.0
 ultralytics>=8.0
 scikit-learn>=1.3
 matplotlib>=3.7
-seaborn>=0.12
 PyYAML>=6.0
-plotly
+plotly>=5.0
 ```
 
-Install all dependencies using:
+Install all Python dependencies using:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+FFmpeg is installed separately for video conversion and browser-compatible playback.
+
+For Streamlit Cloud deployment, the required system package is specified in:
+
+```text
+packages.txt
+```
+
+with:
+
+```text
+ffmpeg
+```
+
+---
+
+# ☁️ Deployment
+
+The application is deployed using **Streamlit Cloud**.
+
+The deployment configuration uses:
+
+* `requirements.txt` for Python dependencies
+* `packages.txt` for the FFmpeg system dependency
+* `app/streamlit_app.py` as the Streamlit application entry point
+
+The live application can be accessed here:
+
+🚀 **[Open Live Pothole Detection App](https://jainvanshika21-intelligent-road-pothole-appstreamlit-app-2mc2qo.streamlit.app/)**
 
 ---
 
