@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 import tempfile
 import os
-
+import subprocess
 import cv2
 import pandas as pd
 import streamlit as st
@@ -741,33 +741,192 @@ else:
 
                 st.stop()
 
+                        # ------------------------------------------------
+            # RELEASE VIDEO WRITER AND CAPTURE
+            # ------------------------------------------------
+
+            writer.release()
+            cap.release()
+
 
             # ------------------------------------------------
-            # READ OUTPUT VIDEO AS BYTES
+            # VERIFY ORIGINAL OUTPUT VIDEO
             # ------------------------------------------------
 
-            with open(
-                output_path,
-                "rb"
-            ) as video_file:
+            if (
+                not output_path.exists()
+                or output_path.stat().st_size == 0
+            ):
 
-                video_bytes = (
-                    video_file.read()
+                st.error(
+                    "❌ Detection completed, but the output "
+                    "video file was not created correctly."
+                )
+
+                st.session_state.processing = False
+
+                progress_bar.empty()
+                status_text.empty()
+
+                st.stop()
+
+
+            # ------------------------------------------------
+            # CONVERT VIDEO TO BROWSER-COMPATIBLE H.264
+            # ------------------------------------------------
+
+            h264_output_path = (
+                output_dir
+                / f"detected_output_h264_{int(time.time())}.mp4"
+            )
+
+
+            ffmpeg_command = [
+                "ffmpeg",
+                "-y",
+                "-i",
+                str(output_path),
+                "-c:v",
+                "libx264",
+                "-preset",
+                "fast",
+                "-pix_fmt",
+                "yuv420p",
+                "-movflags",
+                "+faststart",
+                str(h264_output_path),
+            ]
+
+
+            try:
+
+                result = subprocess.run(
+                    ffmpeg_command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
                 )
 
 
+                if result.returncode != 0:
+
+                    st.error(
+                        "❌ FFmpeg video conversion failed."
+                    )
+
+                    st.code(
+                        result.stderr
+                    )
+
+                    st.session_state.processing = False
+
+                    progress_bar.empty()
+                    status_text.empty()
+
+                    st.stop()
+
+
+            except FileNotFoundError:
+
+                st.error(
+                    "❌ FFmpeg is not installed on the server."
+                )
+
+                st.info(
+                    "Please add 'ffmpeg' to packages.txt "
+                    "and redeploy your Streamlit app."
+                )
+
+                st.session_state.processing = False
+
+                progress_bar.empty()
+                status_text.empty()
+
+                st.stop()
+
+
             # ------------------------------------------------
-            # SAVE OUTPUT IN SESSION STATE
+            # VERIFY H.264 OUTPUT VIDEO
+            # ------------------------------------------------
+
+            if (
+                not h264_output_path.exists()
+                or h264_output_path.stat().st_size == 0
+            ):
+
+                st.error(
+                    "❌ H.264 output video was not created."
+                )
+
+                st.session_state.processing = False
+
+                progress_bar.empty()
+                status_text.empty()
+
+                st.stop()
+
+
+            # ------------------------------------------------
+            # READ H.264 VIDEO AS BYTES
+            # ------------------------------------------------
+
+            with open(
+                h264_output_path,
+                "rb"
+            ) as video_file:
+
+                video_bytes = video_file.read()
+
+
+            # ------------------------------------------------
+            # SAVE VIDEO IN SESSION STATE
             # ------------------------------------------------
 
             st.session_state.output_video_path = (
-                str(output_path)
+                str(h264_output_path)
             )
 
             st.session_state.output_video_bytes = (
                 video_bytes
             )
 
+
+            # ------------------------------------------------
+            # MARK PROCESSING COMPLETE
+            # ------------------------------------------------
+
+            st.session_state.processing = False
+
+            st.session_state.detection_completed = True
+
+            st.session_state.detection_started = False
+
+
+            progress_bar.empty()
+            status_text.empty()
+
+
+            # ------------------------------------------------
+            # DISPLAY SUCCESS MESSAGE
+            # ------------------------------------------------
+
+            st.success(
+                "✅ Detection Completed!"
+            )
+
+
+            # ------------------------------------------------
+            # DISPLAY PROCESSED VIDEO
+            # ------------------------------------------------
+
+            st.subheader(
+                "🎬 Processed Video"
+            )
+
+
+            st.video(
+                st.session_state.output_video_bytes
+            )
 
             # ------------------------------------------------
             # MARK PROCESSING COMPLETE
