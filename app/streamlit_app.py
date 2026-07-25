@@ -927,6 +927,8 @@ else:
             st.video(
                 st.session_state.output_video_bytes
             )
+
+        except Exception as e:
             
             # ----------------------------------------------
             # CLEANUP ON ERROR
