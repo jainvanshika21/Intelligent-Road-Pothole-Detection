@@ -393,7 +393,7 @@ with st.sidebar:
 
 # ------------------ LIVE DETECTION ------------------
 
-st.subheader("📹 Live Detection")
+st.subheader("📹 Processing Video")
 
 if st.session_state.video_path is None:
 
@@ -401,7 +401,6 @@ if st.session_state.video_path is None:
 
 else:
 
-    placeholder = st.empty()
     progress_bar = st.progress(0)
     status_text = st.empty()
 
@@ -414,6 +413,18 @@ else:
 
     total_frames = st.session_state.meta.total_frames
     fps = st.session_state.meta.fps
+
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    output_path = "detected_output.mp4"
+
+    writer = cv2.VideoWriter(
+        output_path,
+        cv2.VideoWriter_fourcc(*"mp4v"),
+        fps,
+        (width, height)
+    )
 
     while st.session_state.processing:
 
@@ -458,18 +469,8 @@ else:
 
             annotated = frame
 
-        # Convert BGR → RGB
-        rgb = cv2.cvtColor(
-            annotated,
-            cv2.COLOR_BGR2RGB
-        )
-
-        # Display frame
-        placeholder.image(
-            rgb,
-            channels="RGB",
-            use_container_width=True
-        )
+        # Save processed frame
+        writer.write(annotated)
 
         # Update frame counter
         st.session_state.frame_idx += 1
@@ -484,19 +485,25 @@ else:
             min(progress, 1.0)
         )
 
-        status_text.text(
-            f"Processing: {progress * 100:.1f}% | "
-            f"Frame {st.session_state.frame_idx}/{total_frames}"
+        status_text.markdown(
+            f"""
+### 🔍 Analyzing Video with YOLOv8
+
+**Progress:** {progress*100:.1f}%
+
+**Frame:** {st.session_state.frame_idx}/{total_frames}
+"""
         )
 
-        # Small delay
-        time.sleep(0.01)
-
+    writer.release()
     cap.release()
 
     progress_bar.empty()
     status_text.empty()
 
+    st.success("✅ Detection Completed!")
+
+    st.video(output_path)
 
 # ------------------ SUMMARY METRICS ------------------
 
