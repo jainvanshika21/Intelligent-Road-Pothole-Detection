@@ -927,44 +927,7 @@ else:
             st.video(
                 st.session_state.output_video_bytes
             )
-
-            # ------------------------------------------------
-            # MARK PROCESSING COMPLETE
-            # ------------------------------------------------
-
-            st.session_state.processing = False
-
-            st.session_state.detection_completed = True
-
-            st.session_state.detection_started = False
-
-
-            progress_bar.empty()
-
-            status_text.empty()
-
-
-            st.success(
-                "✅ Detection Completed!"
-            )
-
-
-            # ------------------------------------------------
-            # DISPLAY PROCESSED VIDEO
-            # ------------------------------------------------
-
-            st.subheader(
-                "🎬 Processed Video"
-            )
-
-
-            st.video(
-                st.session_state.output_video_bytes
-            )
-
-
-        except Exception as e:
-
+            
             # ----------------------------------------------
             # CLEANUP ON ERROR
             # ----------------------------------------------
